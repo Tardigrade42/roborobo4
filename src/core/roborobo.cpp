@@ -481,7 +481,7 @@ void inspectAtPixel(int xIns, int yIns)
 
     std::cout << "\tvirtual floor sensor: ( " << value << " : " << (int) r << "," << (int) g << "," << (int) b << ")"
               << std::endl;
-    if ( value > 0 and value < 0xFFFFFF )
+    if ( value > 0 && value < 0xFFFFFF )
         std::cout << "\ti.e. Footprint of object #" << ( value - 1 ) << " detected." << std::endl;
     else
         if ( value == 0xFFFFFF )

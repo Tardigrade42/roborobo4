@@ -174,7 +174,7 @@ void ForagingRegionsController::selectNaiveMO()
 
         for (; fitnessItChallenger != _fitnessValueList.end(); ++fitnessItChallenger, ++regretItChallenger)
         {
-            if ((*fitnessItUnderFocus).second<(*fitnessItChallenger).second and (*regretItUnderFocus).second>(
+            if ((*fitnessItUnderFocus).second<(*fitnessItChallenger).second && (*regretItUnderFocus).second>(
                     *regretItChallenger).second) // remember: regret is positive and larger value is worse.
             {
                 candidate = false;
