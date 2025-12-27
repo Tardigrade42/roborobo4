@@ -4,17 +4,27 @@ import re
 import subprocess
 import sys
 from distutils.version import LooseVersion
-from sphinx.setup_command import BuildDoc
+import pybind11
 
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
 
+# For some reason python sometimes complains
+# about a direct import of `sphinx.setup_command`.
+# Therefore this function imports it only when
+# needed. This resolves this issue and makes the
+# script runnable on WSL.
+def get_build_sphinx_class():
+    try:
+        from sphinx.setup_command import BuildDoc
+        return BuildDoc
+    except ImportError:
+        return None
 
 class CMakeExtension(Extension):
     def __init__(self, name, sourcedir=''):
         Extension.__init__(self, name, sources=[])
         self.sourcedir = os.path.abspath(sourcedir)
-
 
 class CMakeBuild(build_ext):
     def run(self):
@@ -61,11 +71,10 @@ class CMakeBuild(build_ext):
         subprocess.check_call(['cmake', ext.sourcedir] + cmake_args, cwd=self.build_temp, env=env)
         subprocess.check_call(['cmake', '--build', '.'] + build_args, cwd=self.build_temp)
 
-cmdclass = {'build_sphinx': BuildDoc, "build_ext":CMakeBuild}
+cmdclass = {'build_sphinx': get_build_sphinx_class(), "build_ext":CMakeBuild}
 name = 'roborobo'
 version = '4.0.0'
 release = '4.0.0'
-
 
 setup(
     name=name,
@@ -84,6 +93,7 @@ setup(
             'project': ('setup.py', name),
             'version': ('setup.py', version),
             'release': ('setup.py', release),
-            'source_dir': ('setup.py', 'docs')}},
-
+            'source_dir': ('setup.py', 'docs')
+        }
+    },
 )
