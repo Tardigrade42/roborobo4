@@ -18,7 +18,7 @@
 #include <cstdlib> // RAND_MAX
 #include <random>
 #include <chrono>
-#include <sys/time.h>
+#include <core/Utilities/CrossPlatformTime.h>
 
 #define swapInteger(a,b) {int tmp;tmp=a;a=b;b=tmp;}
 

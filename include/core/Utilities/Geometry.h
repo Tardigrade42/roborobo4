@@ -16,7 +16,7 @@
 #include <sstream>
 #include <iostream>
 
-#include <sys/time.h>
+#include <core/Utilities/CrossPlatformTime.h>
 
 // A useful struct/class for storing 2D real coordinates.
 class Point2d
