@@ -59,6 +59,15 @@ class CMakeBuild(build_ext):
             cmake_args += ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY_{}={}'.format(cfg.upper(), extdir)]
             if sys.maxsize > 2**32:
                 cmake_args += ['-A', 'x64']
+                # For some reason Windows is always defaulting to build the
+                # project with Ninja. This however does not support x64
+                # architectures. Therefore this code will crash without
+                # defining the correct building tool.
+                cmake_args += ['-G', 'Visual Studio 17 2022']
+            # Since `pip install pybind11` only imports the header file
+            # and the program needs the cmake file, you need to give the
+            # installer the concrete location:
+            cmake_args += [f'-Dpybind11_DIR={pybind11.get_cmake_dir()}']
             build_args += ['--', '/m']
         else:
             cmake_args += ['-DCMAKE_BUILD_TYPE=' + cfg]
