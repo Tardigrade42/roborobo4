@@ -9,7 +9,8 @@
 #ifndef GEOMETRY_H
 #define GEOMETRY_H
 
-#include <vector> 
+#include <vector>
+#define _USE_MATH_DEFINES // enable MSVC math constants for cmath (i. e. M_PI)
 #include <math.h> 
 
 #include <string>

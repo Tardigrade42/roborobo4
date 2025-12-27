@@ -32,6 +32,7 @@
 #include <map>
 #include <string>
 #include <iomanip>
+#define _USE_MATH_DEFINES // enable MSVC math constants for cmath (i. e. M_PI)
 #include <cmath>
 #include <float.h> // for DBL_MAX
 #include <random> 
