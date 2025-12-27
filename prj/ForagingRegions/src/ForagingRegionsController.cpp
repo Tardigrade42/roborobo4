@@ -8,6 +8,7 @@
 #include "World/World.h"
 #include "RoboroboMain/roborobo.h"
 #include "WorldModels/RobotWorldModel.h"
+#undef max // Windows fix to use the max function in the normal way
 #include <algorithm>
 
 using namespace Neural;

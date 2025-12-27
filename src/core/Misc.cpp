@@ -12,6 +12,7 @@
 #include "RoboroboMain/common.h"
 #include <string>
 #include <random>
+#undef max // Windows fix to use the max function in the normal way
 
 // random generator functions, header declaration in common.h (general scope)
 std::random_device rnd;
