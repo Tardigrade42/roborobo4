@@ -49,18 +49,16 @@ namespace zsu
     std::string::iterator i = std::find_if(str.begin(), str.end(), pred);
     // i now points to the 4th character in str; i.e. the first space
   \endcode
-
  */
 template <class _Result, class _Arg>
-class unary_function_binder: public std::unary_function<_Result, _Arg> // might be deprecated. In that case comment this line, uncommented the one below
-//class unary_function_binder: public std::__unary_function<_Result, _Arg>
+class unary_function_binder
 {
   public:
-    typedef _Result (*_Function)(_Arg);
+    using _Function = _Result (*)(_Arg);
 
-    unary_function_binder(_Function __f) {__function = __f;}
+    explicit unary_function_binder(_Function f) : __function(f) {}
 
-    _Result operator() (_Arg __arg) {  return __function(__arg); }
+    _Result operator() (_Arg arg) const {  return __function(arg); }
 
   private:
     _Function __function;
