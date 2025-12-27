@@ -14,6 +14,8 @@
 #include "Observers/WorldObserver.h"
 #include <iostream>
 #include <vector>
+#include <numeric>
+#include <algorithm>
 
 //#include "tbb/blocked_range.h"
 //#include "tbb/parallel_for.h"
@@ -181,14 +183,9 @@ void World::updateWorld(const Uint8 *_keyboardStates)
 
     // * update physical object, if any (in random order)
 
-    int shuffledObjectIndex[gNbOfPhysicalObjects];
-    for (int i = 0; i < gNbOfPhysicalObjects; i++)
-    {
-        shuffledObjectIndex[i] = i;
-    }
-
-    std::shuffle(&shuffledObjectIndex[0], &shuffledObjectIndex[gNbOfPhysicalObjects], engine);
-    //std::random_shuffle(&shuffledObjectIndex[0], &shuffledObjectIndex[gNbOfPhysicalObjects]); // [!n] remove after 2018-5-1 - random_shuffle was not seeded, and uses rand() - thanks Amine.
+    std::vector<int> shuffledObjectIndex(gNbOfPhysicalObjects); 
+    std::iota(shuffledObjectIndex.begin(), shuffledObjectIndex.end(), 0);
+    std::shuffle(shuffledObjectIndex.begin(), shuffledObjectIndex.end(), engine);
 
     for (int i = 0; i < gNbOfPhysicalObjects; i++)
     {
@@ -208,16 +205,9 @@ void World::updateWorld(const Uint8 *_keyboardStates)
 
     // * update agents
 
-    int shuffledRobotIndex[gNbOfRobots];
-    for (int i = 0; i < gNbOfRobots; i++)
-    {
-        shuffledRobotIndex[i] = i;
-    }
-
-    std::shuffle(&shuffledRobotIndex[0], &shuffledRobotIndex[gNbOfRobots], engine);
-    //std::random_shuffle(&shuffledRobotIndex[0], &shuffledRobotIndex[gNbOfRobots]); // [!n] remove after 2018-5-1 - random_shuffle was not seeded, and uses rand() - thanks Amine.
-
-
+    std::vector<int> shuffledRobotIndex(gNbOfRobots);
+    std::iota(shuffledRobotIndex.begin(), shuffledRobotIndex.end(), 0);
+    std::shuffle(shuffledRobotIndex.begin(), shuffledRobotIndex.end(), engine);
 
     // update agent level observers
     for (int i = 0; i != gNbOfRobots; i++)
