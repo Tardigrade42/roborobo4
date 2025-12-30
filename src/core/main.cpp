@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include "Utilities/GetOpt.h"
 #include <csignal>
+#include <filesystem>
 
 // For getopt
 extern char *optarg;
@@ -169,8 +170,10 @@ int main(int argc, char* argv[])
     /**/
     char *path = nullptr;
     size_t size = 0;
-    path = getcwd(path,size);
-    std::cout << "[INFO] Current location : " << path << std::endl;
+    //path = getcwd(path,size);
+    std::cout << "[INFO] Current location : "
+              << std::filesystem::current_path().string()
+              << std::endl;
     //delete path;
     /**/
     
