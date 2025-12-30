@@ -1,31 +1,49 @@
 cmake_minimum_required(VERSION 3.5)
 project(Roborobo.4)
-set(CMAKE_BUILD_TYPE Debug)
 
-if (NOT DEFINED CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Debug)
+if (MSVC)
+    add_compile_options(
+        /EHsc # enable exceptions
+        /wd4820 # disable padding warning
+        /wd4365 # disable signed/unsigned warning
+        /wd4244 # disable narrowing warning
+        /wd4100 # disable unreferenced variable warning
+        /wd5045 # disable strange python warning
+        /wd4242 # disable type conversion warning
+        /wd4623 # disable constructor implicit deleted warning
+        /wd4626 # disable operator implicit deleted warning
+        /wd4245 # disable return type conversion warning
+        /wd4458 # disable hiding class member warning
+        /wd4266 # disable no override available warning
+        /wd4068 # disable unknown pragma warning
+        /wd4456 # disable declaration hides previous local declaration warning
+        /wd4868 # disable compiler may not enforce left-to-right evaluation warning
+        /wd4866 # disable compiler may not enforce left-to-right evaluation warning
+        /wd4189 # disable local variable is initialized but not referenced warning
+        /wd4514 # disable unreferenced inline function has been removed warning
+        /wd4101 # disable unreferenced local variable warning
+        /wd4800 # disable implicit conversion warning
+        /wd5039 # disable pointer or reference warning
+        /wd4267 # disable conversion warning
+        /wd4996 # disable unsafe function or variable warning
+        /wd4459 # disable hides global declaration warning
+        /wd4702 # disable unreachable code warning
+        /wd5219 # disable implicit conversion warning
+        /wd4996 # disable deprecation warning
+        /WX- # disable "warning treaded as error"
+        )
 endif ()
-message("Type of build: " ${CMAKE_BUILD_TYPE})
+
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS "-Wall -O3")
 
-#SET(PYTHON_EXECUTABLE /...path_to_python_exec.../python)
-
-if (DEFINED ENV{PYTHON_EXECUTABLE})
-    SET(PYTHON_EXECUTABLE $ENV{PYTHON_EXECUTABLE})
-    message(${PYTHON_EXECUTABLE})
-else ()
-    message("PYTHON_EXECUTABLE environment variable is not set")
-endif ()
-
-if (DEFINED ENV{CONDA_PREFIX})
-    message("Conda env found, using " $ENV{CONDA_PREFIX})
-    list(APPEND CMAKE_MODULE_PATH "$ENV{CONDA_PREFIX}/share/cmake/")
-    set(pybind11_DIR "$ENV{CONDA_PREFIX}/share/cmake/pybind11")
+if (MSVC)
+    add_compile_options(/O2)
 else()
-    message("No conda environment found")
+    add_compile_options(-O3 -Wall)
 endif()
 
+set(PYBIND11_FINDPYTHON ON)
+find_package(Python COMPONENTS Interpreter Development REQUIRED)
 find_package(pybind11 REQUIRED)
 
 get_cmake_property(_variableNames VARIABLES)
@@ -61,39 +79,27 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 #find_package(SDL2 COMPONENTS main image REQUIRED)
 find_package(SDL2 CONFIG REQUIRED)
 find_package(SDL2_image CONFIG REQUIRED)
-find_package(Boost COMPONENTS REQUIRED)
-IF (Boost_FOUND)
-    include_directories(${Boost_INCLUDE_DIR})
-endif ()
-
-if (SDL2_FOUND)
-    include_directories(${SDL2_INCLUDE_DIR})
-endif()
-
-message(${SDL2_LIBRARIES})
-
-
-include_directories(${SDL2_INCLUDE_DIRS})
-
+find_package(Boost REQUIRED COMPONENTS filesystem system)
 
 find_package(Eigen3 REQUIRED NO_MODULE)
 
 add_executable(roborobo ${SOURCE_FILES})
 target_link_libraries(roborobo PRIVATE
-        ${SDL2_LIBRARIES}
-        ${SDL2_IMAGE_LIBRARIES}
-        ${Boost_FILESYSTEM_LIBRARY}
-        ${Boost_SYSTEM_LIBRARY}
-        Eigen3::Eigen
-        )
-
+                      SDL2::SDL2
+                      SDL2::SDL2main
+                      SDL2_image::SDL2_image
+                      Boost::filesystem
+                      Boost::system
+                      Eigen3::Eigen
+)
 
 pybind11_add_module(pyroborobo ${LIB_SOURCE_FILES})
 target_compile_definitions(pyroborobo PUBLIC PYROBOROBO=1)
 target_link_libraries(pyroborobo PRIVATE
-        ${SDL2_LIBRARIES}
-        ${SDL2_IMAGE_LIBRARIES}
-        ${Boost_FILESYSTEM_LIBRARY}
-        ${Boost_SYSTEM_LIBRARY}
-        Eigen3::Eigen
-        )
+                      SDL2::SDL2
+                      SDL2::SDL2main
+                      SDL2_image::SDL2_image
+                      Boost::filesystem
+                      Boost::system
+                      Eigen3::Eigen
+)
