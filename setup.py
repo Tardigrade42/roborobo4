@@ -1,10 +1,15 @@
 import os
+from os.path import dirname
 import platform
 import re
 import subprocess
 import sys
 from distutils.version import LooseVersion
 import pybind11
+
+# Find current python version for API compilation target
+python_exe = sys.executable
+python_root = dirname(dirname(python_exe))
 
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
@@ -49,8 +54,14 @@ class CMakeBuild(build_ext):
             extdir += os.path.sep
 
         print(extdir)
-        cmake_args = ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + extdir,
-                      '-DPYTHON_EXECUTABLE=' + sys.executable]
+        cmake_args = [
+            f'-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={extdir}',
+            f'-DPython_EXECUTABLE={python_exe}',
+            f'-DPYTHON_EXECUTABLE={python_exe}',      # Legacy fallback
+            f'-DPython_ROOT_DIR={python_root}',
+            f'-DPython_FIND_STRATEGY=LOCATION',       # force exact match
+            f'-DPython_FIND_IMPLEMENTATIONS=CPython', # avoid python brought by vcpkg
+        ]
 
         cfg = 'Debug' if self.debug else 'Release'
         build_args = ['--config', cfg]
