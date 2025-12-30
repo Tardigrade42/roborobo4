@@ -1,6 +1,5 @@
 # Roborobo.4
 
-
 **Roborobo** is a fast and simple 2D mobile robot simulator loosely based on low-cost mobile robots such as khepera or epuck models. It is targeted for fast single and multi-robots simulation for evolutionary robotics and machine learning in multi-agent systems, collective and swarm robotics.
 
 **Roborobo** combines speed of development _and_ speed of execution. Roborobo can be programmed with python 3.x, with all the core functions written in C++ for super fast execution.
@@ -47,10 +46,9 @@ Supported platforms:
  * Linux-based
  * MacOS X
 
-Linux and MacOS installation instructions are described below. Other platforms are not officially supported, but Roborobo was previously shown to run on: MS Windows, Raspbian and Pandora.
+Linux, Windows and MacOS installation instructions are described below. Other platforms are not officially supported, but Roborobo was previously shown to run on: Raspbian and Pandora.
 
 _Remark: if you get a lot of warnings during compilation, this is probably due to already installed pip packages shadowing the newly installed conda packages (e.g. with pybind). Work around for pyBind that may work: conda install -c conda-forge "pybind11>2.6". However the best way is to delete the pip packages and make a clean install of roborobo again__
-
 
 ## Linux
 
@@ -107,7 +105,7 @@ conda create --name roborobo numpy pybind11
 conda activate roborobo
 ```
 
-Install Python dependencies for Roborobo (numpy, pybind11, sphinx, ...) 
+Install Python dependencies for Roborobo (numpy, pybind11, sphinx, ...)
 
 ```bash
 conda install numpy setuptools
@@ -146,6 +144,87 @@ python3 -m pip install . --force --user -v
 ```
 
 Check the QUICK START section below for running a Roborobo example.
+
+## Windows
+
+First you need python 3.12 with the corresponding packages:
+
+```bash
+# Install python 13
+winget install --id Python.Python.3.13 -e
+
+# Install the packages
+pip install setuptools wheel sphinx
+```
+
+Now you need the VS building tools to get CMake and all other tools required:
+
+```bash
+winget install -e --id Microsoft.VisualStudio.2022.BuildTools
+# The installation DOES NOT need any "Workloads".
+# However you need the following "Individual Components":
+#  - MSVC v143 - VS 2022 C++ x64/x86 build tools (Latest)
+#  - Windows 11 SDK (10.0.26100.7175)
+#  - C++ CMake tools for Windows
+# => The "Workloads" and "Individual Components" can be selected
+#    during the installation process.
+```
+
+Install `git`, if not already installed:
+
+```bash
+winget install --id Git.Git -e
+```
+
+At lase, you need `vcpkg` to install the app at the end:
+
+```bash
+# Clone the vcpkg repository from microsoft
+git clone https://github.com/microsoft/vcpkg
+
+# Install vcpkg.
+# Note: You need to run this in a CMD terminal!
+cd vcpkg
+# You can also not use the flag `-disableMetrics`,
+# in case you want Microsoft to collect some usage
+# data.
+bootstrap-vcpkg.bat -disableMetrics
+
+# Now install all required tools:
+vcpkg install sdl2 sdl2-image
+vcpkg integrate install
+# Note: You need to run the command in the 
+#       directory or add the directory to your
+#       PATH
+
+# The second command will return something like:
+# Applied user-wide integration for this vcpkg root.
+# CMake projects should use: "-DCMAKE_TOOLCHAIN_FILE=<vpk-repo-path>/scripts/buildsystems/vcpkg.cmake"
+# All MSBuild C++ projects can now #include any installed libraries. Linking will be handled automatically. Installing new libraries will make them instantly available.
+#
+# Now use this information to execute this command in your console before doing the next step:
+setx CMAKE_PREFIX_PATH "<vcpkg-repo-path>/installed/x64-windows"
+```
+
+Now install `roborobo4`:
+
+```bash
+# Get your local copy of Roborobo:
+git clone https://github.com/nekonaute/roborobo4.git
+cd <some-path>/roborobo4
+
+# Set compile mode to release
+set CMAKE_BUILD_TYPE=Release
+
+py -m pip install . --force --user -v --no-build-isolation
+```
+
+## Uninstalling RoboRobo if needed
+
+```bash
+pip uninstall roborobo -y
+```
+
 ___
 # QUICK START
 
@@ -185,13 +264,13 @@ Many other examples are available in the __pyRoborobo_dev/examples__ folder.
 ## Build the pyRoborobo API documentation (optional)
 
 Build Roborobo's python API documentation:
+
 ```bash
 # conda activate roborobo (if not already activated)
 python setup.py build_sphinx
 ```
 
 The pyRoborobo API documentation is now in _build/sphinx/html/index.html_
-
 
 ## Running a C++ example (optional)
 
