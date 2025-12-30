@@ -219,7 +219,7 @@ double ForagingRegionsController::getFitness()
             return 0.0; // no fitness (ie. medea) [CTL]
             break;
         case 1: // foraging-only
-        case 4: // naive MO (using foraging and regret as seperate objectives)
+        case 4: // naive MO (using foraging and regret as separate objectives)
             return std::abs(_wm->_fitnessValue); // foraging-only (or naive MO, which uses fitness as foraging)
             break;
         case 2:

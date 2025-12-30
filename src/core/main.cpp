@@ -4,13 +4,11 @@
  *
  *  Created by Nicolas on 16/01/09.
  *  See roborbo.cpp for description
- *
  */
 
 #include "RoboroboMain/main.h"
 #include <cstdlib>
-#include <getopt.h>
-#include <unistd.h>
+#include "Utilities/GetOpt.h"
 #include <csignal>
 
 // For getopt
@@ -85,22 +83,19 @@ std::ostream& operator<<(std::ostream& os, const std::vector<T>& v)
 /** default demo mode with visualization. If at least one argument, launch demo in batch mode (ie. no display, fast pace). */
 int main(int argc, char* argv[])
 {
+    // Parse Command line parameters (in argv), using self-implemented GetOpt
+    GetOpt opt(argc, argv);
     bool commandline_propertiesfilename = false;
     
 	// Install signal handler, to handle Ctrl-C and 'kill' signals
 	signal(SIGINT, quit);
 	signal(SIGTERM, quit);
     
-    // Parse Command line parameters (in argv), using getopt
-    
     displayGeneralInformation();
-    
-    int c = getopt (argc, argv, "vhsl:o:");
-    
-    if ( c  == -1 ) // no arguments? display usage.
+
+    // no arguments? display usage.
+    if (argc == 1)
     {
-        //usage(argv[0]);
-        
         std::cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" << std::endl;
         std::cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" << std::endl;
         std::cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" << std::endl;
@@ -128,71 +123,47 @@ int main(int argc, char* argv[])
         
         //return -1;
     }
-    
-    while ( c  != -1 )
-    {
-        //std::cout << "Argument: " << (int)c << " ; " << (char)c << std::endl; //todo :: DEBUG
-        
-        switch (c)
-        {
-            case 'v':
-                versionInfos();
-                return -1;
-                break;
-                
-            case 'l':
-                if ( commandline_propertiesfilename == false )
-                {
-                    gPropertiesFilename = optarg;
-                    std::cout << "[INFO] Command-line parameter: properties will be loaded from file \"" << gPropertiesFilename << "\"." << std::endl;
-                    commandline_propertiesfilename = true;
-                }
-                else
-                {
-                    std::cout << "[INFO] Command-line parameter: properties file already set (\"" <<  gPropertiesFilename << "\"). Ignored." << std::endl;
-                }
-                break;
-                
-            case 'o':
-                if ( gLogDirectoryname_commandlineargument == false ) // take only the first into account
-                {
-                    gLogDirectoryname = optarg;
-                    std::cout << "[INFO] Command-line parameter: logs will be written in directory \"" <<  gLogDirectoryname << "\" (assume: directory exists)." << std::endl;
-                    gLogDirectoryname_commandlineargument = true;
-                }
-                else
-                {
-                    std::cout << "[INFO] Command-line parameter: logs directory already set (\"" <<  gLogDirectoryname << "\"). Ignored." << std::endl;
-                }
-                break;
-                
-            case 's':
-                gVerbose = false;
-                gVerbose_commandlineargument = true;
-                break;
-                
-            case 'h':
-                usage(argv[0]);
-                return -1;
-                break;
-            
-            case 'b':
-                gBatchMode = true;
-                gDisplayMode = 2;
-                gBatchMode_commandlineargument = true;
-                break;
 
-            case '?':
-                //std::cout << "[INFO] Unknown argument \"" << (char)optopt << "\" detected, and ignored." << std::endl;
-                break;
-                
-            default:
-                usage(argv[0]);
-                return -1;
-                break;
+    if (opt.hasShortOption('v') || opt.hasLongOption("version")) {
+        versionInfos();
+        return -1;
+    }
+
+    if (opt.hasShortOption('h') || opt.hasLongOption("help")) {
+        usage(argv[0]);
+        return -1;
+    }
+
+    if (opt.hasShortOption('s')) {
+        gVerbose = false;
+        gVerbose_commandlineargument = true;
+    }
+
+    if (opt.hasShortOption('b')) {
+        gBatchMode = true;
+        gDisplayMode = 2;
+        gBatchMode_commandlineargument = true;
+    }
+
+    if (auto lval = opt.getShortOptionValue('l')) {
+        if (!commandline_propertiesfilename) {
+            gPropertiesFilename = *lval;
+            std::cout << "[INFO] Command-line parameter: properties will be loaded from file \"" << gPropertiesFilename << "\"." << std::endl;
+            commandline_propertiesfilename = true;
+        } else {
+            std::cout << "[INFO] Command-line parameter: properties file already set (\"" <<  gPropertiesFilename << "\"). Ignored." << std::endl;
         }
-        
-        c = getopt (argc, argv, "vhsbl:o:");
+    }
+
+    if (auto oval = opt.getShortOptionValue('o')) {
+        // take only the first into account
+        if (gLogDirectoryname_commandlineargument == false ) {
+            gLogDirectoryname = *oval;
+            std::cout << "[INFO] Command-line parameter: logs will be written in directory \"" <<  gLogDirectoryname << "\" (assume: directory exists)." << std::endl;
+            gLogDirectoryname_commandlineargument = true;
+        } else {
+            std::cout << "[INFO] Command-line parameter: logs directory already set (\"" <<  gLogDirectoryname << "\"). Ignored." << std::endl;
+        }
     }
     
     /**/
