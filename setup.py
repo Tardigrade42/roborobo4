@@ -68,7 +68,9 @@ class CMakeBuild(build_ext):
             f'-DPython_FIND_IMPLEMENTATIONS=CPython', # avoid python brought by vcpkg
         ]
 
-        cfg = 'Debug' if self.debug else 'Release'
+        # Checks if the current python installation is debug capable
+        is_debug_python = hasattr(sys, "gettotalrefcount")
+        cfg = 'Debug' if is_debug_python else 'Release'
         build_args = ['--config', cfg]
 
         if platform.system() == "Windows":
