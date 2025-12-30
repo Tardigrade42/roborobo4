@@ -4,7 +4,7 @@ import platform
 import re
 import subprocess
 import sys
-from distutils.version import LooseVersion
+from packaging.version import Version
 import pybind11
 
 # Find current python version for API compilation target
@@ -40,8 +40,13 @@ class CMakeBuild(build_ext):
                                ", ".join(e.name for e in self.extensions))
 
         if platform.system() == "Windows":
-            cmake_version = LooseVersion(re.search(r'version\s*([\d.]+)', out.decode()).group(1))
-            if cmake_version < '3.1.0':
+            cmake_version_r_match = re.search(r'version\s*([\d.]+)', out.decode())
+
+            if cmake_version_r_match is None:
+                raise RuntimeError("No CMake version found")
+            
+            cmake_version = Version(cmake_version_r_match.group(1))
+            if cmake_version < Version('3.1.0'):
                 raise RuntimeError("CMake >= 3.1.0 is required on Windows")
 
         for ext in self.extensions:
