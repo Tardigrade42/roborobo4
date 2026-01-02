@@ -4,6 +4,8 @@ project(Roborobo.4)
 if (MSVC)
     add_compile_options(
         /EHsc # enable exceptions
+        # These warnings are temporarily disabled
+        # TODO: Fixing these warnings
         /wd4820 # disable padding warning
         /wd4365 # disable signed/unsigned warning
         /wd4244 # disable narrowing warning
