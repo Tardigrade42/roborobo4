@@ -197,13 +197,31 @@ vcpkg integrate install
 #       directory or add the directory to your
 #       PATH
 
-# The second command will return something like:
-# Applied user-wide integration for this vcpkg root.
-# CMake projects should use: "-DCMAKE_TOOLCHAIN_FILE=<vpk-repo-path>/scripts/buildsystems/vcpkg.cmake"
-# All MSBuild C++ projects can now #include any installed libraries. Linking will be handled automatically. Installing new libraries will make them instantly available.
+# ============================================
+#                DON'T SKIP THIS
+# ============================================
+# Now open up your system or user environment
+# variables:
+# 1. press Windows Key
+# 2. "Edit the system environment variables" or 
+#    "Edit environment variables for your user"
+# 3. press "Environment Variables..."
+# 4. press "New" (be cautions if you press the
+#    top or the bottom button, depending of if
+#    you want to have it for the user or system
+#    wide)
+#    Note: Since the vcpkg repository is probably
+#          only accessible for your user, it makes
+#          more sense to make this only for your
+#          user account.
 #
-# Now use this information to execute this command in your console before doing the next step:
-setx CMAKE_PREFIX_PATH "<vcpkg-repo-path>/installed/x64-windows"
+#    Variable name: CMAKE_PREFIX_PATH
+#    Variable content: <vcpkg-repo-path>/installed/x64-windows
+#
+#    Note: Replace "<vcpkg-repo-path>" with the
+#          actual path.
+#    Note: If you have a x86 system, the path might
+#          be different.
 ```
 
 Now install `roborobo4`:
@@ -214,6 +232,8 @@ git clone https://github.com/nekonaute/roborobo4.git
 cd <some-path>/roborobo4
 
 # Set compile mode to release
+# Note: For some reason a debug build
+#       did not work on Windows.
 set CMAKE_BUILD_TYPE=Release
 
 py -m pip install . --force --user -v --no-build-isolation
