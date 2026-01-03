@@ -154,7 +154,7 @@ First you need python 3.12 with the corresponding packages:
 winget install --id Python.Python.3.13 -e
 
 # Install the packages
-pip install setuptools wheel sphinx
+pip install setuptools wheel "sphinx<7"
 ```
 
 Now you need the VS building tools to get CMake and all other tools required:
@@ -168,15 +168,24 @@ winget install -e --id Microsoft.VisualStudio.2022.BuildTools
 #  - C++ CMake tools for Windows
 # => The "Workloads" and "Individual Components" can be selected
 #    during the installation process.
+
+# In addition you need CMake to use it in the command line:
+winget install -e --id Kitware.CMake
 ```
 
 Install `git`, if not already installed:
 
 ```bash
 winget install --id Git.Git -e
+
+# If it is already installed, consider this an opportunity
+# to update it with either:
+git update-git-for-windows
+# or
+winget update --id Git.Git -e
 ```
 
-At lase, you need `vcpkg` to install the app at the end:
+At least, you need `vcpkg` to install the app at the end:
 
 ```bash
 # Clone the vcpkg repository from microsoft
@@ -216,7 +225,7 @@ vcpkg integrate install
 #          user account.
 #
 #    Variable name: CMAKE_PREFIX_PATH
-#    Variable content: <vcpkg-repo-path>/installed/x64-windows
+#    Variable content: <vcpkg-repo-path>\installed\x64-windows
 #
 #    Note: Replace "<vcpkg-repo-path>" with the
 #          actual path.
@@ -237,6 +246,19 @@ cd <some-path>/roborobo4
 set CMAKE_BUILD_TYPE=Release
 
 py -m pip install . --force --user -v --no-build-isolation
+```
+
+### Checking Python Package Contents
+
+To check the content of the roborobo package, open up the `x64 Native Tools Command Prompt for VS 2022`. There you can execute:
+
+```bash
+dumpbin /dependents "%APPDATA%\Python\Python313\site-packages\pyroborobo.cp313-win_amd64.pyd"
+
+# Note: The path might be different, depending
+#       on the position of your python installation
+#       and the computer architecture:
+#       <python-path>\site-packages\pyroborobo.cp<python-version>-win_<architecture>.pyd
 ```
 
 ## Uninstalling RoboRobo if needed
