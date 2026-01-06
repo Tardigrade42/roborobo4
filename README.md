@@ -154,7 +154,7 @@ First you need python 3.12 with the corresponding packages:
 winget install --id Python.Python.3.13 -e
 
 # Install the packages
-pip install setuptools wheel "sphinx<7"
+pip install setuptools wheel "sphinx<7" pybind11
 ```
 
 Now you need the VS building tools to get CMake and all other tools required:
@@ -169,8 +169,16 @@ winget install -e --id Microsoft.VisualStudio.2022.BuildTools
 # => The "Workloads" and "Individual Components" can be selected
 #    during the installation process.
 
-# In addition you need CMake to use it in the command line:
-winget install -e --id Kitware.CMake
+# ============================================
+#              Choose one Option
+# ============================================
+# 1. Use cmake from VS Build Tools:
+#    1.1. Open `x64 Native Tools Command Prompt for VS 2022`
+#    1.2. Run: where cmake
+#    1.3. Add the path (without `cmake.exe`) to
+#         your PATH of either the user or the system 
+# 2. Install cmake from another source:
+#    winget install -e --id Kitware.CMake
 ```
 
 Install `git`, if not already installed:
@@ -200,7 +208,7 @@ cd vcpkg
 bootstrap-vcpkg.bat -disableMetrics
 
 # Now install all required tools:
-vcpkg install sdl2 sdl2-image
+vcpkg install sdl2 sdl2-image boost-filesystem boost-system boost-multi-array boost-algorithm boost-random boost-serialization boost-thread eigen3 --triplet x64-windows
 vcpkg integrate install
 # Note: You need to run the command in the 
 #       directory or add the directory to your
@@ -231,6 +239,31 @@ vcpkg integrate install
 #          actual path.
 #    Note: If you have a x86 system, the path might
 #          be different.
+# 5. Go to you user or system PATH variable and edit
+#    it. Add a new entry with:
+#    <vcpkg-repo-path>\installed\x64-windows\bin
+#
+# Optional:
+# 6. Add also <vcpkg-repo-path> to PATH, so that you
+#    can use vcpkg as a regular cli program.
+
+# ============================================
+#            Additional Information
+# ============================================
+# 1. You can list all installed components of
+#    vcpkg with:
+#    vcpkg list
+# 2. You can uninstall outdated components with:
+#    vcpkg remove --outdated
+# 3. You can uninstall all components by deleting
+#    the following folders in the vcpkg repo
+#    to make a clear reinstall:
+#     - buildtrees/
+#     - downloads/
+#     - installed/
+#     - packages/
+#    Consider also executing:
+#    vcpkg integrate remove
 ```
 
 Now install `roborobo4`:
@@ -247,6 +280,8 @@ set CMAKE_BUILD_TYPE=Release
 
 py -m pip install . --force --user -v --no-build-isolation
 ```
+
+Check the QUICK START section below for running a Roborobo example.
 
 ### Checking Python Package Contents
 
