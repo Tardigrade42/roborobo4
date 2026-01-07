@@ -6,51 +6,55 @@
 
 ## Version
 
-Roborobo version 4 is currently the __only__ supported version. Current official release is (from: *roborobo.cpp*):
- * *gVersion = 20210321*
- * *gCurrentBuildInfo = Shangri-La build*
+Roborobo version 4 is currently the **only** supported version. Current official release is (from: _roborobo.cpp_):
+
+* _gVersion = 20210321_
+* _gCurrentBuildInfo = Shangri-La build_
 
 ## Contributors
 
-__Main contributors__
+### Main contributors
 
- * Nicolas Bredeche: main roborobo developper and project initiator (since 2009)
- * [http://pages.isir.upmc.fr/~bredeche/](https://www.isir.upmc.fr/personnel/bredeche/?lang=en)
- * contact: nicolas.bredeche(at)sorbonne-universite.fr
+* Nicolas Bredeche: main roborobo developper and project initiator (since 2009)
+* [http://pages.isir.upmc.fr/~bredeche/](https://www.isir.upmc.fr/personnel/bredeche/?lang=en)
+* contact: nicolas.bredeche(at)sorbonne-universite.fr
 
- * Paul Ecoffet: pyRoborobo, the python interface to Roborobo (2020-2021)
- * Evert Haasdijk: properties management library (2010-2012)
+* Paul Ecoffet: pyRoborobo, the python interface to Roborobo (2020-2021)
+* Evert Haasdijk: properties management library (2010-2012)
 
-__Other contributors__
+### Other contributors
 
- * Jean-Marc Montanier, Berend Weel, Amine Boumaza, Andreas Steyven, Leo Cazenille, Theotime Grohens, and a few others!
+* Jean-Marc Montanier, Berend Weel, Amine Boumaza, Andreas Steyven, Leo Cazenille, Theotime Grohens, and a few others!
 
 ## How to cite Roborobo in your work
 
-If you use __Roborobo__ in your work, __please cite the following paper__:
+If you use **Roborobo** in your work, **please cite the following paper**:
 
-*N. Bredeche, J.-M. Montanier, B. Weel, and E. Haasdijk. Roborobo! a fast robot simulator for swarm and collective robotics. CoRR, abs/1304.2888, 2013.*
+_N. Bredeche, J.-M. Montanier, B. Weel, and E. Haasdijk. Roborobo! a fast robot simulator for swarm and collective robotics. CoRR, abs/1304.2888, 2013._
 
-Link to the paper on Arxiv: http://arxiv.org/abs/1304.2888 
+Link to the paper on Arxiv: [Arxiv 1304.2888](http://arxiv.org/abs/1304.2888)
 
-_Scientific papers that cite Roborobo_: https://scholar.google.fr/scholar?cites=7785979290259259170
+_Scientific papers that cite Roborobo_: [Scholar Citation 7785979290259259170](https://scholar.google.fr/scholar?cites=7785979290259259170)
 
 ___
-# INSTALLATION
 
-Roborobo basic dependencies are: 
+## INSTALLATION
+
+Roborobo basic dependencies are:
+
 * a C++ compiler (GCC or CLANG)
 * Python 3.x
 
 Supported platforms:
- * Linux-based
- * MacOS X
+
+* Linux-based
+* MacOS X
 
 Linux, Windows and MacOS installation instructions are described below. Other platforms are not officially supported, but Roborobo was previously shown to run on: Raspbian and Pandora.
 
 _Remark: if you get a lot of warnings during compilation, this is probably due to already installed pip packages shadowing the newly installed conda packages (e.g. with pybind). Work around for pyBind that may work: conda install -c conda-forge "pybind11>2.6". However the best way is to delete the pip packages and make a clean install of roborobo again__
 
-## Linux
+### Linux
 
 Create a conda environment:
 
@@ -59,7 +63,7 @@ conda create --name roborobo numpy pybind11
 conda activate roborobo
 ```
 
-Install Python dependencies for Roborobo (numpy, pybind11, sphinx, ...) 
+Install Python dependencies for Roborobo (numpy, pybind11, sphinx, ...)
 
 ```bash
 conda install numpy setuptools
@@ -96,7 +100,7 @@ python3 -m pip install . --force --user -v
 
 Check the QUICK START section below for running a Roborobo example.
 
-## Mac OS
+### Mac OS
 
 Create a conda environment:
 
@@ -145,7 +149,7 @@ python3 -m pip install . --force --user -v
 
 Check the QUICK START section below for running a Roborobo example.
 
-## Windows
+### Windows
 
 First you need python 3.12 with the corresponding packages:
 
@@ -283,7 +287,7 @@ py -m pip install . --force --user -v --no-build-isolation
 
 Check the QUICK START section below for running a Roborobo example.
 
-### Checking Python Package Contents
+#### Checking Python Package Contents
 
 To check the content of the roborobo package, open up the `x64 Native Tools Command Prompt for VS 2022`. There you can execute:
 
@@ -296,20 +300,30 @@ dumpbin /dependents "%APPDATA%\Python\Python313\site-packages\pyroborobo.cp313-w
 #       <python-path>\site-packages\pyroborobo.cp<python-version>-win_<architecture>.pyd
 ```
 
-## Uninstalling RoboRobo if needed
+### Uninstalling RoboRobo if needed
 
 ```bash
+# Navigate to the roborobo repo in your console of choice
+cd <roborobo-repo-path>
+
+# Delete directories with compile artifacts
+rmdir /s /q build
+rmdir /s /q roborobo.egg-info
+
+# Uninstall the module
 pip uninstall roborobo -y
 ```
 
 ___
-# QUICK START
 
-It is highly suggested to use the __python__ interface to Roborobo, which we refer to as __pyRoborobo__. If you prefer to develop your project in C++, it also possible (check below). pyRoborobo is built as an interface to Roborobo, and though there is of course a cost to use Python instead of pure C++, we empirically consider it worth the ease of development in the context of academic research. For example, the Boids example runs at ~400 fps (pure C++) and ~200 fps (pyRoborobo) on a Macbook pro 13 (early 2019 model).
+## QUICK START
 
-Roborobo (C++) and pyRoborobo (Python) both uses three important directories, that should be accessible from where your code (C++ binary or python script) is run. 
+It is highly suggested to use the **python** interface to Roborobo, which we refer to as **pyRoborobo**. If you prefer to develop your project in C++, it also possible (check below). pyRoborobo is built as an interface to Roborobo, and though there is of course a cost to use Python instead of pure C++, we empirically consider it worth the ease of development in the context of academic research. For example, the Boids example runs at ~400 fps (pure C++) and ~200 fps (pyRoborobo) on a Macbook pro 13 (early 2019 model).
+
+Roborobo (C++) and pyRoborobo (Python) both uses three important directories, that should be accessible from where your code (C++ binary or python script) is run.
+
 * **_data_** contains image and resources for setting a roborobo environment
-* **_config_** contains configuration files for running a roborobo environment 
+* **_config_** contains configuration files for running a roborobo environment
 * **_logs_** will contain log files generated during a roborobo run
 
 While running an example, type "h" when the focus is on the Roborobo window. Help tips will be displayed in the console.
@@ -317,11 +331,13 @@ While running an example, type "h" when the focus is on the Roborobo window. Hel
 ## Running a Python example
 
 Activate conda environment (if not done already):
+
 ```bash
 conda activate roborobo
 ```
 
 Compile and install Roborobo (if not done already):
+
 ```bash
 cd <your_roborobo_folder>
 # python setup.py clean --all -- only if want to rebuild all from scratch
@@ -336,7 +352,7 @@ cd <your_roborobo_folder>/pyRoborobo_dev/examples/
 python tutorial.py
 ```
 
-Many other examples are available in the __pyRoborobo_dev/examples__ folder.
+Many other examples are available in the **pyRoborobo_dev/examples** folder.
 
 ## Build the pyRoborobo API documentation (optional)
 
@@ -351,7 +367,7 @@ The pyRoborobo API documentation is now in _build/sphinx/html/index.html_
 
 ## Running a C++ example (optional)
 
-If you installed Roborobo for the first time, setup the directory structure for running Roborobo: 
+If you installed Roborobo for the first time, setup the directory structure for running Roborobo:
 
 Setup the directory structure for both C++ and Python development (done only once):
 
@@ -364,11 +380,13 @@ ln -s ../logs
 ```
 
 Activate conda environment (if not done already):
+
 ```bash
 conda activate roborobo
 ```
 
-Compile and install Roborobo (to be done every time you modify the C++ code:
+Compile and install Roborobo (to be done every time you modify the C++ code):
+
 ```bash
 cd <your_roborobo_folder>
 # python setup.py clean --all --user _only if want to rebuild all from scratch_
@@ -387,54 +405,55 @@ Roborobo (C++) examples are in the <your_roborobo_folder>/prj directory. Note th
 
 ## What next?
 
- * Check _OVERVIEW.TXT for a __quick introduction__.
- * Check _FAQ.TXT for __trouble shooting__ and __frequently asked questions__.
- * Check the examples, and learn by doing.
+* Check _OVERVIEW.TXT for a **quick introduction**.
+* Check _FAQ.TXT for **trouble shooting** and **frequently asked questions**.
+* Check the examples, and learn by doing.
 
 ## Troubleshooting
 
 Roborobo is regularly tested on the most recent Ubuntu LTS. While you should not encounter any problems with an up-to-date Linux distribution, it may be different with non-standard, outdated and/or badly managed Linux distributions. The following covers the most common errors. Note that before trying to fix things, you should be 100% sure that you followed _exactly_ the installation steps provided above.
 
- * First, be sure that conda uses the same Python version as the default one used in the terminal.
- 	* To check which versions are used:
-		* for Python in Conda: _conda list | grep python_
-		* for Python in Terminal: _python3 --version_
-	* To force conda to use a specific version of Python: _conda create (...) python==3.12_. Updating conda to the latest version if needed.
- 	* To force that the _python_ or _python3_ alias points to the expected python version, re-define the alias in your profile file. E.g.: with _bash_, edit the .bashrc file and add the following line at the end: _alias python='/usr/bin/python3.xx'_ with _xx_ the preferred version. Restart the terminal after modification.
- * When executing _conda activate roborobo_
-        * error: the shell (e.g. bash) is not configured.
-	* solution 1: _conda init bash_. This may fail if your bash profile has been badly written. Fix: clean your bash profile
-   	* solution 2: use another shell. E.g. _tcsh_. I.e. restart installation from scratch. In the terminal, type _tcsh_ before the command _conda activate roborobo_ (during installation, and afterwards when coding).
- * When executing _python3 -m pip install . --force --user -v_
-	 * => error during execution "could NOT find SDL2" (hidden somewhere in the very long list of messages)
-	 * system install of SDL2 (must be super user). See apt commands above.
- * When executing _python3 -m pip install . --force --user -v_
- 	 * error referring to Sphinx (Sphinx is used for generating the documentation)
-         * easy fix (recommended): remove reference to Sphinx in setup.py (delete line 7 and remove _'build_sphinx': BuildDoc_ from line 64)
-         * easy fix (not recommended): switch to a different version of Python (e.g. away from 3.10) 
- * When executing _python3 -m pip install . --force --user -v_
-	 * error: problem with missing MESA/GLX (this is related to the OpenGL graphic library and its open-source implementation in Linux systems).
-	 * solution (see above): apt-get install -y mesa-utils libgl1-mesa-glx
- * When executing _python setup.py install --force --use -v_
-	 * error: "setup.py install is deprecated." (this should not happen if you follow the tutorial)
-	 * You tried to run setup.py. Contrary to what the message says, setup.py isn't deprecated but can no longer be used directly.
-	 * Solution (see above): python3 -m pip install . --force --user -v
-	 * Comment: it can be pretty long. Be sure to use the -v option for verbose mode.
- * When executing _python setup.py install --force --use -v_
-	 * error: "func.h:55:58: error: expected template-name before '<' token" or "Deprecated function in roborobo4/include/contrib/zsu/func.h, line 55"
-	 * cause: recent compiler may spot a deprecated function in roborobo4/include/contrib/zsu/func.h, line 55
-  	 * solution: roborobo4/include/contrib/zsu/func.h, line 55, replace:
-		* new: class unary_function_binder: public std::__unary_function<_Result, _Arg>
-		* old: class unary_function_binder: public std::unary_function<_Result, _Arg>
- * When executing _python3 tutorial.py_ (or any other examples)
-	 * error: "no module name 'pyRoborobo'"
-  	 * first, be sure to check that you followed every step of the installation tutorial. If this is the case, then try the following.
-  	 * Solution 1: be sure that you have activated the conda environment (prefix of prompt should read something like _(roborobo)_)
-   	 * Solution 2: this may be a tricky problem of mismatch Python versions from Conda and command-line. Use same python versions (i.e.: update Conda, or use specific Python version in command line). Comment: Conda's Python and default Python command uses different versions. Check with _conda list | grep python_ and _python --version_. They should be the same.
- * When executing _python tutorial.py_ (or any other examples)
-	 * error looks like: ImportError: /lib/x86_64-linux-gnu/libwayland-client.so.0: undefined symbol: ffi_type_uint32, version LIBFFI_BASE_7.0
-	 * fix looks like: solution: export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libffi.so.7
- * As of early 2024, Mac M2 does not seem to be able to run Roborobo. You may use Virtualbox to install a Linux OS but this is still in beta for Mac M1/M2 as of early 2024. Check dedicated [topic on virtualbox forum](https://forums.virtualbox.org/viewtopic.php?f=8&t=107344) for updates on the topic. Alternatively, you can use Parallels Desktop (but it is not free).
+* First, be sure that conda uses the same Python version as the default one used in the terminal.
+  * To check which versions are used:
+    * for Python in Conda: _conda list | grep python_
+    * for Python in Terminal: _python3 --version_
+  * To force conda to use a specific version of Python: _conda create (...) python==3.12_. Updating conda to the latest version if needed.
+  * To force that the _python_ or _python3_ alias points to the expected python version, re-define the alias in your profile file. E.g.: with _bash_, edit the .bashrc file and add the following line at the end: _alias python='/usr/bin/python3.xx'_ with _xx_ the preferred version. Restart the terminal after modification.
+* When executing _conda activate roborobo_
+  * error: the shell (e.g. bash) is not configured.
+    * solution 1: _conda init bash_. This may fail if your bash profile has been badly written. Fix: clean your bash profile
+    * solution 2: use another shell. E.g. _tcsh_. I.e. restart installation from scratch. In the terminal, type _tcsh_ before the command _conda activate roborobo_ (during installation, and afterwards when coding).
+* When executing _python3 -m pip install . --force --user -v_
+  * => error during execution "could NOT find SDL2" (hidden somewhere in the very long list of messages)
+  * system install of SDL2 (must be super user). See apt commands above.
+* When executing _python3 -m pip install . --force --user -v_
+  * error referring to Sphinx (Sphinx is used for generating the documentation)
+    * easy fix (recommended): remove reference to Sphinx in setup.py (delete line 7 and remove _'build_sphinx': BuildDoc_ from line 64)
+    * easy fix (not recommended): switch to a different version of Python (e.g. away from 3.10)
+* When executing _python3 -m pip install . --force --user -v_
+  * error: problem with missing MESA/GLX (this is related to the OpenGL graphic library and its open-source implementation in Linux systems).
+    * solution (see above): apt-get install -y mesa-utils libgl1-mesa-glx
+* When executing _python setup.py install --force --use -v_
+  * error: "setup.py install is deprecated." (this should not happen if you follow the tutorial)
+    * You tried to run setup.py. Contrary to what the message says, setup.py isn't deprecated but can no longer be used directly.
+    * Solution (see above): python3 -m pip install . --force --user -v
+    * Comment: it can be pretty long. Be sure to use the -v option for verbose mode.
+* When executing _python setup.py install --force --use -v_
+  * error: "func.h:55:58: error: expected template-name before '<' token" or "Deprecated function in roborobo4/include/contrib/zsu/func.h, line 55"
+    * cause: recent compiler may spot a deprecated function in roborobo4/include/contrib/zsu/func.h, line 55
+    * solution: roborobo4/include/contrib/zsu/func.h, line 55, replace:
+      * new: class unary_function_binder: public std::__unary_function<_Result, _Arg>
+      * old: class unary_function_binder: public std::unary_function<_Result, _Arg>
+* When executing _python3 tutorial.py_ (or any other examples)
+  * error: "no module name 'pyRoborobo'"
+    * first, be sure to check that you followed every step of the installation tutorial. If this is the case, then try the following.
+    * Solution 1: be sure that you have activated the conda environment (prefix of prompt should read something like _(roborobo)_)
+    * Solution 2: this may be a tricky problem of mismatch Python versions from Conda and command-line. Use same python versions (i.e.: update Conda, or use specific Python version in command line). Comment: Conda's Python and default Python command uses different versions. Check with _conda list | grep python_ and _python --version_. They should be the same.
+* When executing _python tutorial.py_ (or any other examples)
+  * error looks like: ImportError: /lib/x86_64-linux-gnu/libwayland-client.so.0: undefined symbol: ffi_type_uint32, version LIBFFI_BASE_7.0
+    * fix looks like: solution: export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libffi.so.7
+* As of early 2024, Mac M2 does not seem to be able to run Roborobo. You may use Virtualbox to install a Linux OS but this is still in beta for Mac M1/M2 as of early 2024. Check dedicated [topic on virtualbox forum](https://forums.virtualbox.org/viewtopic.php?f=8&t=107344) for updates on the topic. Alternatively, you can use Parallels Desktop (but it is not free).
+
 ___
 
 _Thank you for using Roborobo!_
