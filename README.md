@@ -56,25 +56,9 @@ _Remark: if you get a lot of warnings during compilation, this is probably due t
 
 ### Linux
 
-Create a conda environment:
+You will need python. Please make sure you have installed some modern version of Python3.
 
-```bash
-conda create --name roborobo numpy pybind11 
-conda activate roborobo
-```
-
-Install Python dependencies for Roborobo (numpy, pybind11, sphinx, ...)
-
-```bash
-conda install numpy setuptools
-conda install -c conda-forge pybind11
-conda install sphinx recommonmark sphinx_rtd_theme numpydoc
-
-# or if you prefer to use pip instead of Conda: 
-# pip install -U pybind11
-# pip install -U numpy
-# pip install -U sphinx
-```
+**Note:** Since we are using a ['toml file'](./pyproject.toml), all required `pip` libraries will be installed later automatically.
 
 Install C++ dependencies for Roborobo (Cmake, SDL2, boost and eigen):
 
@@ -92,35 +76,35 @@ git clone https://github.com/nekonaute/roborobo4.git
 Compile and install Roborobo:
 
 ```bash
-# conda activate roborobo (if not already activated)
 cd roborobo4
-# deprecated: python setup.py install --force --user
-python3 -m pip install . --force --user -v
+
+# ============================================
+#              Choose one Option
+# ============================================
+# Now either run the following command if you
+# do not want to have a documentation:
+py -m pip install .
+# or run this command if you want to have the
+# documentation:
+pip install -U .[docs]
+
+# NOTE: It might be that you have not installed
+#       python in a way, that you can use `pip`
+#       directly in your cli. In this case use
+#       one of these:
+#        - py -m pip ...
+#        - python -m pip ...
+#        - py3 -m pip ...
+#        - python3 -m pip ...
 ```
 
-Check the QUICK START section below for running a Roborobo example.
+Check the [QUICK START](#quick-start) section below for running a Roborobo example.
 
 ### Mac OS
 
-Create a conda environment:
+You will need python. Please make sure you have installed some modern version of Python3.
 
-```bash
-conda create --name roborobo numpy pybind11 
-conda activate roborobo
-```
-
-Install Python dependencies for Roborobo (numpy, pybind11, sphinx, ...)
-
-```bash
-conda install numpy setuptools
-conda install -c conda-forge pybind11
-conda install sphinx recommonmark sphinx_rtd_theme numpydoc
-
-# or if you prefer to use pip instead of Conda: 
-# pip install -U pybind11
-# pip install -U numpy
-# pip install -U sphinx
-```
+**Note:** Since we are using a ['toml file'](./pyproject.toml), all required `pip` libraries will be installed later automatically.
 
 Install C++ dependencies for Roborobo (Cmake, SDL2, boost and eigen):
 
@@ -141,13 +125,29 @@ git clone https://github.com/nekonaute/roborobo4.git
 Compile and install Roborobo:
 
 ```bash
-# conda activate roborobo (if not already activated)
 cd roborobo4
-# deprecated: python setup.py install --force --user
-python3 -m pip install . --force --user -v
+
+# ============================================
+#              Choose one Option
+# ============================================
+# Now either run the following command if you
+# do not want to have a documentation:
+py -m pip install .
+# or run this command if you want to have the
+# documentation:
+pip install -U .[docs]
+
+# NOTE: It might be that you have not installed
+#       python in a way, that you can use `pip`
+#       directly in your cli. In this case use
+#       one of these:
+#        - py -m pip ...
+#        - python -m pip ...
+#        - py3 -m pip ...
+#        - python3 -m pip ...
 ```
 
-Check the QUICK START section below for running a Roborobo example.
+Check the [QUICK START](#quick-start) section below for running a Roborobo example.
 
 ### Windows
 
@@ -156,10 +156,9 @@ First you need python 3.12 with the corresponding packages:
 ```bash
 # Install python 13
 winget install --id Python.Python.3.13 -e
-
-# Install the packages
-pip install setuptools wheel "sphinx<7" pybind11
 ```
+
+**Note:** Since we are using a ['toml file'](./pyproject.toml), all required `pip` libraries will be installed later automatically.
 
 Now you need the VS building tools to get CMake and all other tools required:
 
@@ -277,15 +276,49 @@ Now install `roborobo4`:
 git clone https://github.com/nekonaute/roborobo4.git
 cd <some-path>/roborobo4
 
+# ============================================
+#                DON'T SKIP THIS
+# ============================================
 # Set compile mode to release
 # Note: For some reason a debug build
 #       did not work on Windows.
 set CMAKE_BUILD_TYPE=Release
 
-py -m pip install . --force --user -v --no-build-isolation
+# ============================================
+#              Choose one Option
+# ============================================
+# Now either run the following command if you
+# do not want to have a documentation:
+py -m pip install .
+# or run this command if you want to have the
+# documentation:
+pip install -U .[docs]
+
+# NOTE: It might be that you have not installed
+#       python in a way, that you can use `pip`
+#       directly in your cli. In this case use
+#       one of these:
+#        - py -m pip ...
+#        - python -m pip ...
+#        - py3 -m pip ...
+#        - python3 -m pip ...
 ```
 
-Check the QUICK START section below for running a Roborobo example.
+Check the [QUICK START](#quick-start) section below for running a Roborobo example.
+
+#### Building the Documentation
+
+For this you only need to run these two commands:
+
+**Note** This only works if you used `pip install -U .[docs]`.
+
+```bash
+# Navigate into the docs folder
+cd docs
+
+# Build the documentation
+make.bat html
+```
 
 #### Checking Python Package Contents
 
@@ -330,20 +363,7 @@ While running an example, type "h" when the focus is on the Roborobo window. Hel
 
 ## Running a Python example
 
-Activate conda environment (if not done already):
-
-```bash
-conda activate roborobo
-```
-
-Compile and install Roborobo (if not done already):
-
-```bash
-cd <your_roborobo_folder>
-# python setup.py clean --all -- only if want to rebuild all from scratch
-# deprecated: python setup.py install --force --user
-python3 -m pip install . --force --user -v
-```
+See [in the installation instructions](#installation) in case you have not already installed roborobo4.
 
 Run a pyRoborobo example:
 
@@ -379,20 +399,7 @@ ln -s ../config
 ln -s ../logs
 ```
 
-Activate conda environment (if not done already):
-
-```bash
-conda activate roborobo
-```
-
-Compile and install Roborobo (to be done every time you modify the C++ code):
-
-```bash
-cd <your_roborobo_folder>
-# python setup.py clean --all --user _only if want to rebuild all from scratch_
-# deprecated: python setup.py install --force --user
-python3 -m pip install . --force --user -v
-```
+See [in the installation instructions](#installation) in case you have not already installed roborobo4.
 
 Run a roborobo example:
 
