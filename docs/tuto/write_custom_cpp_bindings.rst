@@ -109,7 +109,7 @@ an argument a reference to a ``pybind11::module``.
 
 Now, we have to tell pybind11 that we want to add new bindings for our controller. Let's write ``addDistAwareBindings``.
 
-First we must declare our new class, using ``pybind11::class_``. In code, the `pybind11` namespace is shorten with ``py``.
+First we must declare our new class, using ``pybind11::class_``. In code, the ``pybind11`` namespace is shorten with ``py``.
 
 .. code:: cpp
 
@@ -119,7 +119,7 @@ First we must declare our new class, using ``pybind11::class_``. In code, the `p
 
     }
 
-The usage of ``pybind11::class_`` is complex. You should definitely look at its documentation. To be short, the first argument of the template is the class that we want to bind, the second argument is the class from which our class inherits. It allows `pybind11` to know that we want to access all the methods written in Controller. The third argument link to a *Trampoline* class. Trampoline class write special code that allow pybind to override c++ function with python functions in the subclasses. ``PyController`` is a special template class that will work with any controller that you write. It is included in ``contrib/pyroborobo/ControllerTrampoline.h``. The fourth argument is the way we want pybind11 to handle reference counts. Here we use the cpp shared pointer, used everywhere in roborobo. It prevents segfault when the python interpreter stops. The first argument of the constructor is our module ``m`` that we received in argument. It is the ``pyroborobo`` module where we want to attach our class. The second argument is the name of the python Class for ``pyroborobo``. The third argument is the docstring of our class.
+The usage of ``pybind11::class_`` is complex. You should definitely look at its documentation. To be short, the first argument of the template is the class that we want to bind, the second argument is the class from which our class inherits. It allows ``pybind11`` to know that we want to access all the methods written in Controller. The third argument link to a *Trampoline* class. Trampoline class write special code that allow pybind to override c++ function with python functions in the subclasses. ``PyController`` is a special template class that will work with any controller that you write. It is included in ``contrib/pyroborobo/ControllerTrampoline.h``. The fourth argument is the way we want pybind11 to handle reference counts. Here we use the cpp shared pointer, used everywhere in roborobo. It prevents segfault when the python interpreter stops. The first argument of the constructor is our module ``m`` that we received in argument. It is the ``pyroborobo`` module where we want to attach our class. The second argument is the name of the python Class for ``pyroborobo``. The third argument is the docstring of our class.
 
 .. warning::
 

@@ -1,6 +1,6 @@
 # How to use pyroborobo
 
-```eval_rst
+```markdown
 .. note::
     The source code for this tutorial can be found in pyRoborobo_examples/controllers.py and pyRoborobo_examples/simple.py
 ```
@@ -22,11 +22,10 @@ cp ~/path/to/roborobo//roborobo3/roborobo3/config config
 
 Then create a python file (for instance `main.py`) which will contain our python code.
 
-The roborobo simulator is contained in a `Pyroborobo` singleton. `Pyroborobo.create()` creates
-the Pyrororobo object. It takes as a first argument the configuration file for pyrobobo. 
-`Pyroborobo.create()` can take more arguments that we will discuss later on. 
+The roborobo simulator is contained in a `Pyroborobo` singleton. `Pyroborobo.create()` creates the Pyrororobo object. It takes as a first argument the configuration file for pyrobobo. `Pyroborobo.create()` can take more arguments that we will discuss later on.
 
 In `main.py`:
+
 ```python
 from pyroborobo import Pyroborobo
 rob = Pyroborobo.create("config/template_wander_smallrobots.properties")
@@ -73,7 +72,8 @@ rob = Pyroborobo.create("config/template_wander_smallrobots.properties",
                         controller_class=SimpleController)
 ```
 
-This is what `main.py` should look like : 
+This is what `main.py` should look like:
+
 ```python
 from pyroborobo import Controller, Pyroborobo, PyWorldModel
 

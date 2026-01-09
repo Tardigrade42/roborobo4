@@ -125,7 +125,7 @@ More general information about the simulation update cycle:
 - WorldModel: contains all information on on agent, ie. its representation of the outside world, including its own status (e.g. energy level).
 - in practical, neither controlarchitecture or observers should contain general agent-related information. All should be stored in the worldmodel.
 
-Prior to this update cycle, a World::initWorld() is called to setup the whole simulation. The initialisation order is:
+Prior to this update cycle, a World::initWorld() is called to setup the whole simulation. The initialization order is:
 1. call WorldObserver::initPre() -- does nothing by default. User-implementation is possible.
 2. initialise landmarks
 3. initialise objects
@@ -137,7 +137,7 @@ More general information about the simulation initialization:
     - initPre() is called before landmarks/objects/robots are set up according to the Properties file
     - initPost() is called after landmarks/objects/robots are set up according to the Properties file, ie. just before simulation starts
     - These methods can also be used to change/initialize the simulation, e.g. setting up specifics (e.g. add/remove/move some objects, robots, landmarks)
-- initialisation uses information from the Properties file
+- initialization uses information from the Properties file
 
 The best way to learn is to practice. Start from an existing project and toy with it.
 

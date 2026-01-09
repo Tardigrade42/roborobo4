@@ -1,12 +1,12 @@
 # Object Creation
 
-```eval_rst 
+```markdown
 .. note::
     The source code for this tutorial can be found in ``pyRoborobo_examples/objects.py`` and ``pyRoborobo_examples/py_switch_example.py``.
 
 ```
 
-It is possible to create custom objects with Pyroborobo. First of all, you must create a class that inherit from either `CircleObject` or `SquareObject`. Let's recreate the Gate and Switch object of the wanderer environment using python. An object must implement the reset and step function. The constructor receives a `data` dictionary containing all the information put in the configuration file. 
+It is possible to create custom objects with Pyroborobo. First of all, you must create a class that inherit from either `CircleObject` or `SquareObject`. Let's recreate the Gate and Switch object of the wanderer environment using python. An object must implement the reset and step function. The constructor receives a `data` dictionary containing all the information put in the configuration file.
 
 ```python
 from pyroborobo import SquareObject, CircleObject, Pyroborobo
@@ -73,8 +73,8 @@ class GateObject(SquareObject):
 
 Now, we need to tell in our configuration file that we want to use the objects that we defined. To do so, let's update our config file. For instance, if we work on `pyRoborobo_examples/py_switch_example.py` we can see the difference between the two config files `pyRoborobo_examples/config/pywander.properties` and `pyRoborobo_examples/config/pywander_pyobj.properties`. The edits are as simple as :
 
-```
-  # Here we declare that we want a python object with the id "gate"
+```SH
+# Here we declare that we want a python object with the id "gate"
 physicalObjects[0].pytype = gate
 # And here a switch
 physicalObjects[1].pytype = switch
@@ -97,10 +97,9 @@ rob.update(3000)
 Pyroborobo.close()
 ```
 
-
 We can also tell roborobo that we want objects without explicitly giving their pytype. To do so, we will overwrite the `gPhysicalObjectDefaultType` in the property file. This entry takes an id to a C++ Physical object class. To tell pyroborobo that we want python default object, we must set the value of this property to -1.
 
-```
+```SH
 gPhysicalObjectDefaultType = -1
 ```
 
@@ -141,7 +140,6 @@ class ResourceObject(CircleObject):
 ```
 
 Then we just have to edit our main. We change the simple controller for a hungry controller that seek resource objects.
-
 
 ```python
 from pyroborobo import Pyroborobo, PyWorldModel

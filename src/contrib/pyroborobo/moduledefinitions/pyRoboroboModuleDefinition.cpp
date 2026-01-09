@@ -114,7 +114,7 @@ bool
     Has the end of the simulation been requested, either by roborobo itself or by closing the window
 
 Examples
----------
+--------
 
 >>> roborobo.update(1000)  # run simulation for 1000 time steps
 >>> agents.learn()  # trigger agents' learning algorithms
@@ -212,13 +212,13 @@ comment: str
 
             }, "agent_id"_a = -1, R"doc(
 Monitor the trajectory of all agents (no argument or -1) or of agent with id ``agent_id``. Save the trajectory image with
-`save_trajectory_image`.
+``save_trajectory_image``.
 
 Parameters
 ----------
 
 agent_id : int (default -1)
-    If -1, monitor all agents trajectory, else monitor the trajectory of agent with id `agent_id`.
+    If -1, monitor all agents trajectory, else monitor the trajectory of agent with id ``agent_id``.
 
 
 )doc")

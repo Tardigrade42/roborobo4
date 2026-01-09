@@ -52,7 +52,7 @@ You can access the sensors and effectors of the robot by reading and modifying i
 Called at each time step of the simulation.
 
 Examples
----------
+--------
 >>> def step(self):
 ...     distance = self.world_model.camera_pixel_distance
 ...     if np.all(distance < 0.5):
@@ -65,7 +65,7 @@ Examples
 ...         self.world_model.rotation = 15
 
 )doc")
-            .def("reset", &Controller::reset, "call at the initialisation of roborobo")
+            .def("reset", &Controller::reset, "call at the initialization of roborobo")
             .def("set_translation", &Controller::setTranslation, "trans_speed"_a,
                  "Set the robot translation speed between [-1, 1]")
             .def("set_rotation", &Controller::setRotation, "rotation_speed"_a,
@@ -84,7 +84,7 @@ Examples
                  { return as_pyarray(self.getAllSensorAngles()); },
                  R"doc(Return a numpy array of all sensor target angles from the center of the robot in degree.)doc")
             .def("get_robot_id_at", &Controller::getRobotIdAt, "sensor_id"_a,
-                 "Robot: Get the robot instance seen by the sensor ``sensor_id``")
+                 "int: Get the robot id of the robot seen by the sensor ``sensor_id``")
             .def("get_all_robot_ids", [](Controller &self)
             {
                 return as_pyarray(self.getAllRobotIds());
@@ -109,7 +109,7 @@ Examples
             .def("get_all_object_instances", &Controller::getAllPyObjectInstances,
                  R"doc(Vector[`PhysicalObject`]: A vector of the object instances seen by each sensor, None if no object in sight.)doc")
             .def("get_wall_at", &Controller::getWallAt, "sensor_id"_a,
-                 "Bool: Tell if it's a wall seen by the sensor ``sensor_id``")
+                 "int: Tell if it's a wall seen by the sensor ``sensor_id`` (0 not a wall or 1 for a wall)")
             .def("get_all_walls", [](Controller &self) -> py::array
             { return as_pyarray(self.getAllWalls()); }, "Vector[`bool`]: Tell if it's a wall seen by each sensor")
             .def("get_ground_sensor_values",
@@ -143,7 +143,7 @@ tuple[float, float, float]: (red, green, blue) from the ground sensor of the rob
                                        auto pos = self.getPosition();
                                        return {pos.x, pos.y};
                                    },
-                                   "Tuple[int, int]: Robot's absolute position")
+                                   "Tuple[float, float]: Robot's absolute position")
             .def_property_readonly("absolute_orientation", &Controller::getCompass,
                                    "Float: Absolute orientation of the robot")
             .def_property_readonly("world_model", &Controller::getWorldModel,
@@ -179,8 +179,8 @@ int: Robot unique ID.
                      }
                      return success;
                  }, "x"_a, "y"_a, "register"_a = true, "force"_a = true,
-                 "set the robot at the position (x, y). if `register` then the "
-                 "function take care of the registration. if `force` is true, the function ignore collisions.")
+                 "Set the robot at the position (x, y). If ``register`` then the "
+                 "function take care of the registration. If ``force`` is true, the function ignore collisions.")
             .def("set_absolute_orientation", [](Controller &self, double angle)
             {
                 self.getWorldModel()->_agentAbsoluteOrientation = angle;

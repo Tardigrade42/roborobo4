@@ -164,7 +164,7 @@ Parameters
 id: int
     The id of the robot that has walked on the object
 )")
-            .def("is_pushed", &SquareObject::isPushed, "id"_a, "force"_a, R"(
+            .def("is_pushed", &SquareObject::isPushed, "id"_a, "speed"_a, R"(
 Callback when the object is pushed
 
 Parameters
@@ -300,11 +300,11 @@ blue: int
 green: int
     The green component of the color in [0, 255]
 )")
-            .def_property("radius", &CircleObject::getRadius, [] (CircleObject& self, int value) { self.setRadius(value);}, "int: The radius of the hard part of the circle")
+            .def_property("radius", &CircleObject::getRadius, [] (CircleObject& self, int value) { self.setRadius(value);}, "float: The radius of the hard part of the circle")
             .def("set_radius", &CircleObject::setRadius, "radius"_a, "force"_a = false,
                  "set the radius of the circle in pixel. if force is true, no check about the object being unregistered is done.")
 
-            .def_property("footprint_radius", &CircleObject::getFootprintRadius, [] (CircleObject& self, int value) { self.setFootprintRadius(value);}, "int: The radius of the footprint of the circle")
+            .def_property("footprint_radius", &CircleObject::getFootprintRadius, [] (CircleObject& self, int value) { self.setFootprintRadius(value);}, "float: The radius of the footprint of the circle")
             .def("set_footprint_radius", &CircleObject::setFootprintRadius, "radius"_a, "force"_a = false,
                  "set the footprint radius of the circle in pixel. if force is true, no check about the object being unregistered is done.");
     py::class_<MovableObject, CircleObject,
