@@ -9,16 +9,8 @@
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#
 
-import recommonmark
-from recommonmark.transform import AutoStructify
-import os
-import sys
-import sphinx_rtd_theme
-
-# sys.path.insert(0, os.path.abspath('../pyroboroo'))
-
+from importlib.metadata import version as pkg_version
 
 # -- Project information -----------------------------------------------------
 
@@ -26,8 +18,9 @@ project = 'Pyroborobo'
 copyright = '2021, Paul Ecoffet, Nicolas Bredeche'
 author = 'Paul Ecoffet, Nicolas Bredeche'
 
-# The full version, including alpha/beta/rc tags
-release = '1.0'
+# Pull version from installed package
+release = pkg_version("roborobo")
+version = release
 
 # -- General configuration ---------------------------------------------------
 
@@ -35,17 +28,15 @@ release = '1.0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'numpydoc',
-    'sphinx.ext.autodoc',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.napoleon',
-    'recommonmark',
-    'sphinx_rtd_theme',
+    "myst_parser",
+    "numpydoc",
+    "sphinx.ext.autodoc",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.napoleon",
 ]
 
 source_suffix = {
     '.rst': 'restructuredtext',
-    '.txt': 'markdown',
     '.md': 'markdown',
 }
 
@@ -58,30 +49,38 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-source_suffix = ['.rst', '.md']
+# -- MyST configuration ------------------------------------------------------
+
+myst_enable_extensions = [
+    "colon_fence",
+    "deflist",
+    "tasklist",
+    "substitution",
+]
 
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-#
 html_theme = 'sphinx_rtd_theme'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+# html_static_path = ['_static'] # <= only use this if you really need it and the folder exists
 
-intersphinx_mapping = {'python': ('http://docs.python.org/3', None),
-                       'numpy': ('https://numpy.org/doc/stable/', None),
-                       'pybind11': ('http://pybind11.readthedocs.io/en/stable/', None)
-                       }
+# -- Intersphinx -------------------------------------------------------------
+
+intersphinx_mapping = {
+    'python': ('http://docs.python.org/3', None),
+    'numpy': ('https://numpy.org/doc/stable/', None),
+    'pybind11': ('http://pybind11.readthedocs.io/en/stable/', None)
+}
+
 default_role = 'any'
-#numpydoc_show_class_members = False
 
-def setup(app):
-    app.add_config_value('recommonmark_config', {
-        'auto_toc_tree_section': 'Contents',
-        'enable_eval_rst': True,
-    }, True)
-    app.add_transform(AutoStructify)
+# Since this is not easily possible for dynamic bindings,
+# this disables generating automatic stubs:
+autosummary_generate = False
+autosummary_generate = False
+numpydoc_show_class_members = False

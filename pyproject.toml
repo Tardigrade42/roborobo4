@@ -1,3 +1,31 @@
 [build-system]
-requires = ["setuptools", "wheel", "sphinx", "pybind11"]
+requires = [
+    "setuptools>=68",
+    "wheel",
+    "pybind11>=2.11",
+    "cmake>=3.15",
+]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "roborobo"
+version = "4.0.0"
+description = "Roborobo, version 4"
+authors = [
+    { name = "Nicolas Bredeche" },
+    { name = "Paul Ecoffet" }
+]
+requires-python = ">=3.9"
+
+[project.optional-dependencies]
+docs = [
+    "sphinx>=8.0",
+    "sphinx-rtd-theme",
+    "breathe>=4.35",
+    "exhale>=0.3",
+    "myst-parser>=2.0",
+    "numpydoc>=1.6",
+]
+
+[tool.setuptools.package-data]
+pyroborobo = ["*.pyi"]

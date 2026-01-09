@@ -14,18 +14,6 @@ python_root = dirname(dirname(python_exe))
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
 
-# For some reason python sometimes complains
-# about a direct import of `sphinx.setup_command`.
-# Therefore this function imports it only when
-# needed. This resolves this issue and makes the
-# script runnable on WSL.
-def get_build_sphinx_class():
-    try:
-        from sphinx.setup_command import BuildDoc
-        return BuildDoc
-    except ImportError:
-        return None
-
 class CMakeExtension(Extension):
     def __init__(self, name, sourcedir=''):
         Extension.__init__(self, name, sources=[])
@@ -98,29 +86,8 @@ class CMakeBuild(build_ext):
         subprocess.check_call(['cmake', ext.sourcedir] + cmake_args, cwd=self.build_temp, env=env)
         subprocess.check_call(['cmake', '--build', '.'] + build_args, cwd=self.build_temp)
 
-cmdclass = {'build_sphinx': get_build_sphinx_class(), "build_ext":CMakeBuild}
-name = 'roborobo'
-version = '4.0.0'
-release = '4.0.0'
-
 setup(
-    name=name,
-    version=version,
-    author='Nicolas Bredeche and Paul Ecoffet',
-    author_email='nicolas.bredeche@sorbonne-universite.fr',
-    description='roborobo',
-    long_description='Roborobo, version 4',
     ext_modules=[CMakeExtension('roborobo')],
-    #packages=['roborobo'],
     zip_safe=False,
-    cmdclass=cmdclass,
-    # these are optional and override conf.py settings
-    command_options={
-        'build_sphinx': {
-            'project': ('setup.py', name),
-            'version': ('setup.py', version),
-            'release': ('setup.py', release),
-            'source_dir': ('setup.py', 'docs')
-        }
-    },
+    cmdclass={"build_ext": CMakeBuild},
 )
